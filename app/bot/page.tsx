@@ -6,6 +6,7 @@ import { PositionsTable } from "@/app/components/PositionsTable";
 import { ConfigOptions } from "@/app/components/ConfigOptions";
 import { LogTerminal } from "@/app/components/LogTerminal";
 import { BotStatsDisplay } from "@/app/components/BotStatsDisplay";
+import { TradingStationsPanel, type TradingStation } from "@/app/components/TradingStationsPanel";
 import { useOrchestratorSSE } from "@/app/lib/useOrchestratorSSE";
 import {
   PLACEHOLDER_BOT_STATS,
@@ -29,6 +30,70 @@ export default function BotConfigPage() {
 
   const [botStats] = useState(PLACEHOLDER_BOT_STATS);
   const [logs] = useState(PLACEHOLDER_LOGS);
+
+  // Mock trading stations data
+  const mockStations: TradingStation[] = [
+    {
+      id: "nyse",
+      name: "NYSE",
+      timezone: "EST",
+      isActive: true,
+      progressPercent: 65,
+      hoursRemaining: 3.5,
+      lastUpdate: "2 mins ago",
+      color: "#06b6d4",
+    },
+    {
+      id: "lse",
+      name: "LSE",
+      timezone: "GMT",
+      isActive: true,
+      progressPercent: 45,
+      hoursRemaining: 6,
+      lastUpdate: "1 min ago",
+      color: "#06b6d4",
+    },
+    {
+      id: "tse",
+      name: "TSE",
+      timezone: "JST",
+      isActive: false,
+      progressPercent: 0,
+      hoursRemaining: 9,
+      lastUpdate: "15 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "hkex",
+      name: "HKEX",
+      timezone: "HKT",
+      isActive: false,
+      progressPercent: 5,
+      hoursRemaining: 8.5,
+      lastUpdate: "5 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "asx",
+      name: "ASX",
+      timezone: "AEDT",
+      isActive: false,
+      progressPercent: 90,
+      hoursRemaining: 0.5,
+      lastUpdate: "3 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "sgx",
+      name: "SGX",
+      timezone: "SGT",
+      isActive: true,
+      progressPercent: 75,
+      hoursRemaining: 2.5,
+      lastUpdate: "30 secs ago",
+      color: "#06b6d4",
+    },
+  ];
 
   // 1. Flatten Active Positions across all markets
   const activePositions = Object.entries(rawState?.markets || {}).flatMap(([marketName, m]) =>
@@ -172,6 +237,11 @@ export default function BotConfigPage() {
 
         {/* Main Content Area */}
         <div className="px-4 md:px-6 lg:px-8 py-6 md:py-8">
+          {/* Trading Stations Panel */}
+          <section className="mb-8">
+            <TradingStationsPanel stations={mockStations} />
+          </section>
+
           {/* Positions Table */}
           <section className="mb-8">
             <PositionsTable positions={activePositions} />
