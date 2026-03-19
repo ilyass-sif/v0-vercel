@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 // framer-motion removed to avoid animation warnings
 import type { CityMarket } from "../types/market";
+import { TradingStationsPanel, type TradingStation } from "./TradingStationsPanel";
 
 function useAnimatedNumber(baseValue: number, incrementRatePerSecond: number) {
   const [value, setValue] = useState(baseValue);
@@ -468,6 +469,70 @@ export function PlatformMetrics({ activeCount }: { activeCount?: number }) {
 }
 
 export function StatsGrid() {
+  // Mock trading stations data
+  const mockStations: TradingStation[] = [
+    {
+      id: "nyse",
+      name: "NYSE",
+      timezone: "EST",
+      isActive: true,
+      progressPercent: 65,
+      hoursRemaining: 3.5,
+      lastUpdate: "2 mins ago",
+      color: "#06b6d4",
+    },
+    {
+      id: "lse",
+      name: "LSE",
+      timezone: "GMT",
+      isActive: true,
+      progressPercent: 45,
+      hoursRemaining: 6,
+      lastUpdate: "1 min ago",
+      color: "#06b6d4",
+    },
+    {
+      id: "tse",
+      name: "TSE",
+      timezone: "JST",
+      isActive: false,
+      progressPercent: 0,
+      hoursRemaining: 9,
+      lastUpdate: "15 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "hkex",
+      name: "HKEX",
+      timezone: "HKT",
+      isActive: false,
+      progressPercent: 5,
+      hoursRemaining: 8.5,
+      lastUpdate: "5 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "asx",
+      name: "ASX",
+      timezone: "AEDT",
+      isActive: false,
+      progressPercent: 90,
+      hoursRemaining: 0.5,
+      lastUpdate: "3 mins ago",
+      color: "#9ca3af",
+    },
+    {
+      id: "sgx",
+      name: "SGX",
+      timezone: "SGT",
+      isActive: true,
+      progressPercent: 75,
+      hoursRemaining: 2.5,
+      lastUpdate: "30 secs ago",
+      color: "#06b6d4",
+    },
+  ];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5">
       <div className="flex flex-col gap-1.5">
@@ -524,36 +589,8 @@ export function StatsGrid() {
         </StatCard>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <StatCard
-          title="Market Health"
-          infoContent="Real-time market health metrics including liquidity depth and trading activity."
-          className="flex-1"
-        >
-          <ul className="space-y-1 list-none pl-0 mt-2">
-            <MetricRow
-              label="Liquidity Pool"
-              baseValue={125000000}
-              incrementRate={1600}
-            />
-            <MetricRow
-              label="Active Traders"
-              baseValue={48293}
-              incrementRate={12}
-            />
-          </ul>
-        </StatCard>
-        <StatCard
-          title="API Performance"
-          baseValue={platformStats.avgLatency}
-          incrementRate={0}
-          infoContent="Average API latency for market data and prediction updates."
-          className="flex-1"
-        >
-          <p className="text-gray-900 text-sm font-mono mt-1">
-            Avg Latency (ms)
-          </p>
-        </StatCard>
+      <div className="col-span-1 md:col-span-2 lg:col-span-1">
+        <TradingStationsPanel stations={mockStations} />
       </div>
     </div>
   );
